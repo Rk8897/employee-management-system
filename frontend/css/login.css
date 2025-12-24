@@ -1,0 +1,89 @@
+/* Login Page Styles */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    font-size: 28px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.login-form {
+    margin-bottom: 24px;
+}
+
+.btn-block {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+    font-size: 16px;
+}
+
+.demo-credentials {
+    background: var(--bg-light);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.demo-credentials p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.demo-credentials code {
+    background: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.login-footer {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.login-footer p {
+    margin: 4px 0;
+}

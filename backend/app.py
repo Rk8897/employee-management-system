@@ -6,7 +6,7 @@ import pymysql
 # Initialize Flask app
 app = Flask(__name__)
 app.config.from_object(Config)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Database connection helper
 def get_db_connection():
@@ -28,11 +28,13 @@ def get_db_connection():
 # Import and register blueprints
 from auth import auth_bp
 app.register_blueprint(auth_bp)
+from employees import employees_bp
+app.register_blueprint(employees_bp)
 
 # Basic routes
 @app.route('/')
 def home():
-    """Welcome endpoint"""
+    """API home - shows available endpoints"""
     return jsonify({
         'message': 'Employee Management System API',
         'status': 'running',
@@ -42,7 +44,13 @@ def home():
             'GET /health': 'Health check',
             'GET /test-db': 'Database connection test',
             'POST /api/auth/login': 'Login (username, password)',
-            'GET /api/auth/verify': 'Verify token (Authorization header)'
+            'GET /api/auth/verify': 'Verify token (Authorization header)',
+            'GET /api/employees': 'Get all employees (with filters)',
+            'GET /api/employees/<id>': 'Get single employee',
+            'POST /api/employees': 'Create employee',
+            'PUT /api/employees/<id>': 'Update employee',
+            'DELETE /api/employees/<id>': 'Delete employee',
+            'GET /api/employees/stats': 'Get statistics'
         }
     })
 

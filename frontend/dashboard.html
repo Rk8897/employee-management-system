@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Employee Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>👥 Employee Management</h2>
+            </div>
+            <div class="nav-menu">
+                <span class="user-name" id="userName">Admin</span>
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <h3 id="totalActive">0</h3>
+                    <p>Total Active</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <h3 id="totalInactive">0</h3>
+                    <p>Inactive</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🆕</div>
+                <div class="stat-info">
+                    <h3 id="recentHires">0</h3>
+                    <p>Recent Hires (30d)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employees Section -->
+        <div class="employees-section">
+            <div class="section-header">
+                <h2>Employees</h2>
+                <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+                    ➕ Add Employee
+                </button>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="filters">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="form-input" 
+                    placeholder="🔍 Search by name or email..."
+                    style="max-width: 300px;"
+                >
+                <select id="statusFilter" class="form-select" style="max-width: 200px;">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="">All Status</option>
+                </select>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>Loading employees...</p>
+            </div>
+
+            <!-- Alert Messages -->
+            <div id="alert" class="hidden"></div>
+
+            <!-- Employees Table -->
+            <div class="table-container">
+                <table class="table" id="employeesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Department</th>
+                            <th>Salary</th>
+                            <th>Join Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeesBody">
+                        <!-- Employees will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state hidden">
+                <p>📭 No employees found</p>
+                <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+                    Add Your First Employee
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Employee Modal -->
+    <div id="employeeModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Employee</h3>
+                <button type="button" class="modal-close" onclick="closeEmployeeModal()">✕</button>
+
+            </div>
+            <form id="employeeForm">
+                <input type="hidden" id="employeeId">
+                
+                <div class="form-group">
+                    <label class="form-label">Name *</label>
+                    <input type="text" id="empName" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" id="empEmail" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" id="empPhone" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Department *</label>
+                    <select id="empDepartment" class="form-select" required>
+                        <option value="">Select Department</option>
+                        <option value="1">Engineering</option>
+                        <option value="2">Human Resources</option>
+                        <option value="3">Marketing</option>
+                        <option value="4">Finance</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Salary</label>
+                    <input type="number" id="empSalary" class="form-input" step="1000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Join Date</label>
+                    <input type="date" id="empJoinDate" class="form-input">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeEmployeeModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                        Save Employee
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/employees.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
