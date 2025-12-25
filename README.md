@@ -9,7 +9,7 @@ A full-stack web application for managing employee records with a modern, respon
 - **Department Management** - Organize employees by departments
 - **Search & Filter** - Find employees quickly with search and department filters
 - **Dashboard Statistics** - View total employees, departments, and average salary
-- **Responsive Design** - Works seamlessly on desktop and mobile devices
+- **Responsive Design** - Works seamlessly on desktop 
 - **Modern UI** - Clean interface with gradient designs and smooth animations
 
 ## 🛠️ Tech Stack
