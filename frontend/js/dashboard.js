@@ -1,5 +1,7 @@
+﻿// ==============================
 // Dashboard Main Logic
-document.addEventListener('DOMContentLoaded', async function() {
+// ==============================
+document.addEventListener('DOMContentLoaded', async function () {
     // Check authentication
     if (!isAuthenticated()) {
         window.location.href = 'login.html';
@@ -17,6 +19,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupEventListeners();
 });
 
+// ==============================
+// Load User Info
+// ==============================
 function loadUserInfo() {
     const userStr = localStorage.getItem('user');
     if (userStr) {
@@ -25,6 +30,9 @@ function loadUserInfo() {
     }
 }
 
+// ==============================
+// Load Stats
+// ==============================
 async function loadStats() {
     try {
         const response = await api.getStats();
@@ -36,9 +44,13 @@ async function loadStats() {
         }
     } catch (error) {
         console.error('Error loading stats:', error);
+        showAlert('Failed to load stats', 'error');
     }
 }
 
+// ==============================
+// Load Employees
+// ==============================
 async function loadEmployees() {
     const loading = document.getElementById('loading');
     const emptyState = document.getElementById('emptyState');
@@ -52,8 +64,8 @@ async function loadEmployees() {
 
     try {
         // Get filter values
-        const status = document.getElementById('statusFilter').value;
-        const search = document.getElementById('searchInput').value;
+        const status = document.getElementById('statusFilter')?.value;
+        const search = document.getElementById('searchInput')?.value;
 
         const filters = {};
         if (status) filters.status = status;
@@ -73,6 +85,8 @@ async function loadEmployees() {
                 tableContainer.classList.remove('hidden');
                 displayEmployees(employees);
             }
+        } else {
+            showAlert('Failed to load employees', 'error');
         }
     } catch (error) {
         console.error('Error loading employees:', error);
@@ -81,6 +95,9 @@ async function loadEmployees() {
     }
 }
 
+// ==============================
+// Display Employees in Table
+// ==============================
 function displayEmployees(employees) {
     const tbody = document.getElementById('employeesBody');
     tbody.innerHTML = '';
@@ -88,23 +105,23 @@ function displayEmployees(employees) {
     employees.forEach(emp => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><strong>${emp.name}</strong></td>
+            <td><strong>${emp.id}</strong></td>
+            <td>${emp.name}</td>
             <td>${emp.email}</td>
-            <td>${emp.phone || '-'}</td>
-            <td>${emp.department_name || '-'}</td>
-            <td>₹${emp.salary ? emp.salary.toLocaleString() : '-'}</td>
-            <td>${emp.join_date || '-'}</td>
+            <td>${emp.position}</td>
+            <td>Rs ${emp.salary}</td>
+            <td>${emp.joinedDate}</td>
             <td>
-                <span class="status-badge status-${emp.status}">
+                <span class="status-badge status-${emp.status.toLowerCase()}">
                     ${emp.status}
                 </span>
             </td>
             <td>
                 <button class="action-btn action-edit" onclick="editEmployee(${emp.id})">
-                    ✏️ Edit
+                    Edit
                 </button>
                 <button class="action-btn action-delete" onclick="deleteEmployee(${emp.id})">
-                    🗑️ Delete
+                    Delete
                 </button>
             </td>
         `;
@@ -112,36 +129,43 @@ function displayEmployees(employees) {
     });
 }
 
+// ==============================
+// Event Listeners
+// ==============================
 function setupEventListeners() {
     // Search input
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', debounce(loadEmployees, 500));
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(loadEmployees, 500));
+    }
 
     // Status filter
     const statusFilter = document.getElementById('statusFilter');
-    statusFilter.addEventListener('change', loadEmployees);
+    if (statusFilter) {
+        statusFilter.addEventListener('change', loadEmployees);
+    }
 }
 
-// Debounce function for search
+// ==============================
+// Debounce Helper
+// ==============================
 function debounce(func, wait) {
     let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
+    return function (...args) {
         clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(() => func(...args), wait);
     };
 }
 
+// ==============================
+// Alerts
+// ==============================
 function showAlert(message, type = 'info') {
     const alert = document.getElementById('alert');
     alert.textContent = message;
     alert.className = `alert alert-${type}`;
     alert.classList.remove('hidden');
 
-    // Auto hide after 5 seconds
     setTimeout(() => {
         alert.classList.add('hidden');
     }, 5000);

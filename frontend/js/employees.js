@@ -2,7 +2,6 @@
 
 let currentEmployeeId = null;
 
-// Make functions globally accessible
 window.showAddEmployeeModal = function() {
     currentEmployeeId = null;
     document.getElementById('modalTitle').textContent = 'Add Employee';
@@ -67,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             await saveEmployee();
         });
     }
-    
+
     const modal = document.getElementById('employeeModal');
     if (modal) {
         modal.addEventListener('click', function(e) {
