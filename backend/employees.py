@@ -1,4 +1,4 @@
-﻿"""
+"""
 Employee CRUD Operations
 """
 from flask import Blueprint, request, jsonify
